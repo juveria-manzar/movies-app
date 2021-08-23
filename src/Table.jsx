@@ -10,7 +10,7 @@ let Table = (props) => {
     let filteredMoviesArray = allMovies.filter((el) => {
         if (currFilter === "All Genre")
             return el;
-        else if (el.genre.name == currFilter)
+        else if (el.genre.name === currFilter)
             return el;
     })
 
@@ -46,7 +46,7 @@ let Table = (props) => {
                                             favorite_border
                                         </span>}
                                     </td>
-                                    <td> <button className="table-delete-btn">Delete</button> </td>
+                                    <td> <button onClick={()=>{props.deleteMovie(movie._id)}} className="table-delete-btn">Delete</button> </td>
                                 </tr>
                             })}
                         </tbody>

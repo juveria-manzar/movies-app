@@ -21,7 +21,7 @@ class App extends React.Component {
     let index = this.state.movies.findIndex((el) => {
       return el._id === id;
     })
-    
+
     let currMoviesArr = this.state.movies.map((el) => el)
 
     if (currMoviesArr[index].liked) {
@@ -30,7 +30,15 @@ class App extends React.Component {
       currMoviesArr[index].liked = true;
     }
 
-    this.setState({movies:currMoviesArr});
+    this.setState({ movies: currMoviesArr });
+  }
+
+  deleteMovie = (id) => {
+    let filterredArr = this.state.movies.filter((el) => {
+      return el._id != id;
+    })
+
+    this.setState({ movies: filterredArr })
   }
 
   componentDidMount() {
@@ -64,7 +72,8 @@ class App extends React.Component {
             <Table
               selectedFilter={this.state.selectedFilter}
               moviesData={this.state.movies}
-              toggleLike={this.toggleLike} />
+              toggleLike={this.toggleLike}
+              deleteMovie={this.deleteMovie} />
           </div>
         </div>
       </div>
