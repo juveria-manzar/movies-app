@@ -4,7 +4,6 @@ import Filter from './Filter'
 import Navbar from "./Navbar";
 import Search from "./Search";
 import Table from "./Table";
-import Pagination from './Pagination';
 
 class App extends React.Component {
 
@@ -19,7 +18,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //i will get data here
     let func = async () => {
       let responseGenres = await fetch("/genre");
       let responseMovies = await fetch("/movies");
@@ -41,11 +39,14 @@ class App extends React.Component {
       <div>
         <Navbar />
         <div className="row">
-          <Filter handleFilter={this.setFilter} selectedFilter={this.state.selectedFilter} genreData={this.state.genres} />
+          <Filter handleFilter={this.setFilter}
+            selectedFilter={this.state.selectedFilter}
+            genreData={this.state.genres} />
 
           <div className="col-9 p-4">
             <Search />
-            <Table moviesData={this.state.movies} />
+            <Table selectedFilter={this.state.selectedFilter}
+            moviesData={this.state.movies} />
           </div>
         </div>
       </div>

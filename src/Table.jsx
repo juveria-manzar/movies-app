@@ -1,6 +1,16 @@
 import Pagination from './Pagination'
 
 let Table = (props) => {
+
+    let allMovies = props.moviesData
+    let currFilter = props.selectedFilter
+
+    let filteredMoviesArray = allMovies.filter((el) => {
+        if (currFilter === "All Genre")
+            return el;
+        else if (el.genre.name == currFilter)
+            return el
+    })
     return (
         <>
             <div class="row">
@@ -17,16 +27,16 @@ let Table = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                           {props.moviesData.map((movie)=>{
-                               return <tr key={movie._id}>
-                                   <td>{movie.title}</td>
-                                   <td>{movie.genre.name}</td>
-                                   <td>{movie.numberInStock}</td>
-                                   <td>{movie.dailyRentalRate}</td>
-                                   <td>Like</td>
-                                   <td> <button>Delete</button> </td>
-                               </tr>
-                           })}
+                            {filteredMoviesArray.map((movie) => {
+                                return <tr key={movie._id}>
+                                    <td>{movie.title}</td>
+                                    <td>{movie.genre.name}</td>
+                                    <td>{movie.numberInStock}</td>
+                                    <td>{movie.dailyRentalRate}</td>
+                                    <td>Like</td>
+                                    <td> <button>Delete</button> </td>
+                                </tr>
+                            })}
                         </tbody>
                     </table>
                 </div>
