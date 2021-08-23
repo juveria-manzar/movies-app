@@ -1,6 +1,8 @@
 import Pagination from './Pagination'
+import './Table.css'
 
 let Table = (props) => {
+    console.log(props)
 
     let allMovies = props.moviesData
     let currFilter = props.selectedFilter
@@ -9,8 +11,10 @@ let Table = (props) => {
         if (currFilter === "All Genre")
             return el;
         else if (el.genre.name == currFilter)
-            return el
+            return el;
     })
+
+    let arrayToBeUsed = filteredMoviesArray.slice(0, 4);
     return (
         <>
             <div class="row">
@@ -27,14 +31,22 @@ let Table = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredMoviesArray.map((movie) => {
+                            {arrayToBeUsed.map((movie) => {
                                 return <tr key={movie._id}>
                                     <td>{movie.title}</td>
                                     <td>{movie.genre.name}</td>
                                     <td>{movie.numberInStock}</td>
                                     <td>{movie.dailyRentalRate}</td>
-                                    <td>Like</td>
-                                    <td> <button>Delete</button> </td>
+                                    <td onClick={() => {
+                                        props.toggleLike(movie._id)
+                                    }}>
+                                        {movie.liked ? (<span class="material-icons-outlined">
+                                            favorite
+                                        </span>) : <span class="material-icons-outlined">
+                                            favorite_border
+                                        </span>}
+                                    </td>
+                                    <td> <button className="table-delete-btn">Delete</button> </td>
                                 </tr>
                             })}
                         </tbody>
