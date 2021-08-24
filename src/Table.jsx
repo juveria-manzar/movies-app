@@ -7,25 +7,28 @@ class Table extends React.Component {
         currPage: 1
     }
 
-    selectPage=(value)=>{
-        this.setState({currPage:value})
+    selectPage = (value) => {
+        this.setState({ currPage: value })
     }
     render() {
         let allMovies = this.props.moviesData
         let currFilter = this.props.selectedFilter
 
-        
+
         let filteredMoviesArray = allMovies.filter((el) => {
             if (currFilter === "All Genre")
-            return el;
+                return el;
             else if (el.genre.name === currFilter)
-            return el;
+                return el;
         })
 
         let numberOfPages = Math.ceil(filteredMoviesArray.length / 4);
+
         
-        let arrayToBeUsed = filteredMoviesArray.slice(0, 4);
-        console.log(arrayToBeUsed)
+        let startPage = (this.state.currPage - 1) * 4;
+        let endPage = Math.min(filteredMoviesArray.length, this.state.currPage * 4);
+
+        let arrayToBeUsed = filteredMoviesArray.slice(startPage, endPage);
         return (
             <>
                 <div class="row">
@@ -64,10 +67,10 @@ class Table extends React.Component {
                         </table>
                     </div>
                 </div>
-                <Pagination 
-                selectPage={this.selectPage}
-                currPage={this.state.currPage} 
-                numberOfPages={numberOfPages} />
+                <Pagination
+                    selectPage={this.selectPage}
+                    currPage={this.state.currPage}
+                    numberOfPages={numberOfPages} />
             </>
         )
     }
