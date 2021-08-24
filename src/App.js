@@ -10,7 +10,8 @@ class App extends React.Component {
   state = {
     movies: [],
     genres: [],
-    selectedFilter: "All Genre"
+    selectedFilter: "All Genre",
+    search: ""
   }
 
   setFilter = (filter) => {
@@ -41,6 +42,9 @@ class App extends React.Component {
     this.setState({ movies: filterredArr })
   }
 
+  updateSearch = (searchString) => {
+    this.setState({ search: searchString })
+  }
   componentDidMount() {
     let func = async () => {
       let responseGenres = await fetch("/genre");
@@ -68,8 +72,9 @@ class App extends React.Component {
             genreData={this.state.genres} />
 
           <div className="col-9 p-4">
-            <Search />
+            <Search search={this.state.search} updateSearch={this.updateSearch} total={this.state.movies.length} />
             <Table
+              search={this.state.search}
               selectedFilter={this.state.selectedFilter}
               moviesData={this.state.movies}
               toggleLike={this.toggleLike}

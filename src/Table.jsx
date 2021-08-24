@@ -22,6 +22,13 @@ class Table extends React.Component {
                 return el;
         })
 
+        filteredMoviesArray = filteredMoviesArray.filter((el) => {
+            let movieTitle=el.title
+            movieTitle=movieTitle.toLowerCase();
+            let s=this.props.search.toLowerCase();
+            return movieTitle.includes(s)
+        })
+
         let numberOfPages = Math.ceil(filteredMoviesArray.length / 4);
 
         
