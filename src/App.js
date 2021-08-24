@@ -1,7 +1,11 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import Filter from './Filter'
 import Navbar from "./Navbar";
+import Rentals from "./Rentals";
+import Customer from "./Customer";
+import Login from "./Login";
 import Search from "./Search";
 import Table from "./Table";
 
@@ -64,24 +68,41 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Navbar />
-        <div className="row">
-          <Filter handleFilter={this.setFilter}
-            selectedFilter={this.state.selectedFilter}
-            genreData={this.state.genres} />
+      <Router>
+        <div>
+          <Navbar />
+          <Switch>
+            <Route path="/rentals">
+              <Rentals />
+            </Route>
+            <Route path="/customers">
+              <Customer />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
 
-          <div className="col-9 p-4">
-            <Search search={this.state.search} updateSearch={this.updateSearch} total={this.state.movies.length} />
-            <Table
-              search={this.state.search}
-              selectedFilter={this.state.selectedFilter}
-              moviesData={this.state.movies}
-              toggleLike={this.toggleLike}
-              deleteMovie={this.deleteMovie} />
-          </div>
+            <Route path="/">
+              <div className="row">
+                <Filter handleFilter={this.setFilter}
+                  selectedFilter={this.state.selectedFilter}
+                  genreData={this.state.genres} />
+
+                <div className="col-9 p-4">
+                  <Search search={this.state.search} updateSearch={this.updateSearch} total={this.state.movies.length} />
+                  <Table
+                    search={this.state.search}
+                    selectedFilter={this.state.selectedFilter}
+                    moviesData={this.state.movies}
+                    toggleLike={this.toggleLike}
+                    deleteMovie={this.deleteMovie} />
+                </div>
+              </div>
+            </Route>
+          </Switch>
         </div>
-      </div>
+      </Router>
+
     )
   }
 }
