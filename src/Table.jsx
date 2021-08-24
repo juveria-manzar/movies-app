@@ -1,61 +1,77 @@
+import React from 'react'
 import Pagination from './Pagination'
 import './Table.css'
 
-let Table = (props) => {
-    console.log(props)
+class Table extends React.Component {
+    state = {
+        currPage: 1
+    }
 
-    let allMovies = props.moviesData
-    let currFilter = props.selectedFilter
+    selectPage=(value)=>{
+        this.setState({currPage:value})
+    }
+    render() {
+        let allMovies = this.props.moviesData
+        let currFilter = this.props.selectedFilter
 
-    let filteredMoviesArray = allMovies.filter((el) => {
-        if (currFilter === "All Genre")
+        
+        let filteredMoviesArray = allMovies.filter((el) => {
+            if (currFilter === "All Genre")
             return el;
-        else if (el.genre.name === currFilter)
+            else if (el.genre.name === currFilter)
             return el;
-    })
+        })
 
-    let arrayToBeUsed = filteredMoviesArray.slice(0, 4);
-    return (
-        <>
-            <div class="row">
-                <div class="col-10">
-                    <table class="table mt-4">
-                        <thead>
-                            <tr>
-                                <th scope="col">Title</th>
-                                <th scope="col">Genre</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Rate</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {arrayToBeUsed.map((movie) => {
-                                return <tr key={movie._id}>
-                                    <td>{movie.title}</td>
-                                    <td>{movie.genre.name}</td>
-                                    <td>{movie.numberInStock}</td>
-                                    <td>{movie.dailyRentalRate}</td>
-                                    <td onClick={() => {
-                                        props.toggleLike(movie._id)
-                                    }}>
-                                        {movie.liked ? (<span class="material-icons-outlined">
-                                            favorite
-                                        </span>) : <span class="material-icons-outlined">
-                                            favorite_border
-                                        </span>}
-                                    </td>
-                                    <td> <button onClick={()=>{props.deleteMovie(movie._id)}} className="table-delete-btn">Delete</button> </td>
+        let numberOfPages = Math.ceil(filteredMoviesArray.length / 4);
+        
+        let arrayToBeUsed = filteredMoviesArray.slice(0, 4);
+        console.log(arrayToBeUsed)
+        return (
+            <>
+                <div class="row">
+                    <div class="col-10">
+                        <table class="table mt-4">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Genre</th>
+                                    <th scope="col">Stock</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
                                 </tr>
-                            })}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {arrayToBeUsed.map((movie) => {
+                                    return <tr key={movie._id}>
+                                        <td>{movie.title}</td>
+                                        <td>{movie.genre.name}</td>
+                                        <td>{movie.numberInStock}</td>
+                                        <td>{movie.dailyRentalRate}</td>
+                                        <td onClick={() => {
+                                            this.props.toggleLike(movie._id)
+                                        }}>
+                                            {movie.liked ? (<span class="material-icons-outlined">
+                                                favorite
+                                            </span>) : <span class="material-icons-outlined">
+                                                favorite_border
+                                            </span>}
+                                        </td>
+                                        <td> <button onClick={() => { this.props.deleteMovie(movie._id) }} className="table-delete-btn">Delete</button> </td>
+                                    </tr>
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <Pagination />
-        </>
-    )
+                <Pagination 
+                selectPage={this.selectPage}
+                currPage={this.state.currPage} 
+                numberOfPages={numberOfPages} />
+            </>
+        )
+    }
+
 }
 
 export default Table
